@@ -1,2 +1,5 @@
 /data
 /slice.csv
+/transactions.csv
+/fraud.db
+__pycache__/
