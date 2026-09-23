@@ -1,4 +1,4 @@
-// 4f (setup 1/4). Build one FLOWS_TO relationship per (sender, receiver) pair,
+// 4a (setup 1/4). Build one FLOWS_TO relationship per (sender, receiver) pair,
 // rolling up all SENT transactions between them (self-transfers excluded).
 //
 // Why: 4.49M non-self SENT rels connect only 647,939 distinct pairs (6.9 per
