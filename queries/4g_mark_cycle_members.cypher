@@ -1,9 +1,15 @@
-// 4g. Mark members of temporal cycles (UPDATE for CRUD; used by risk score).
-// No dedup needed: DISTINCT n already collapses repeated rings.
-// Use the same hop range as the 4f counts.
-MATCH path = (a:Account) ((x)-[r:SENT]->(y) WHERE x <> y){2,5} (a)
-WHERE all(i IN range(0, size(r)-2) WHERE r[i].timestamp <= r[i+1].timestamp)
-UNWIND nodes(path) AS n
+// 4g. Mark members of temporal rings (as 4f2) with inCycle = true.
+// UPDATE for CRUD; used by the risk score. Run 4f0 first.
+// Expected: {2,12} 6,941 accounts; use the same range as the 4f counts.
+MATCH (a:Account)
+MATCH (a) ((x)-[f:FLOWS_TO]->(y) WHERE y.accountId >= a.accountId){2,12} (a)
+WHERE all(i IN range(0, size(x)-2) WHERE NOT x[i] IN x[i+1..])
+WITH x, [k IN range(0, size(f)-1) | f[k..] + f[..k]] AS rotations
+WHERE any(rot IN rotations WHERE size(reduce(
+        st = rot[0].ts,
+        e IN rot[1..] |
+        [j IN range(0, size(e.ts)-1) WHERE any(t IN st WHERE e.ts[j] >= t) | e.ts[j]])) > 0)
+UNWIND x AS n
 WITH DISTINCT n
 SET n.inCycle = true
 RETURN count(n) AS accountsInCycles

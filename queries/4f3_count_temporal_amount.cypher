@@ -1,13 +1,28 @@
-// 4f (3/3). Count temporal cycles with USD amount conservation (as 4c).
-// {2,5} because counting explores the whole graph. If it runs past ~3 min,
-// stop it, change to {2,4} in all three 4f files, and note the range used.
-WITH {`Australian Dollar`: 0.707814, `Bitcoin`: 11874.4, `Brazil Real`: 0.177101, `Canadian Dollar`: 0.757978, `Euro`: 1.17178, `Mexican Peso`: 0.0472968, `Ruble`: 0.0128528, `Rupee`: 0.0136158, `Saudi Riyal`: 0.266588, `Shekel`: 0.296121, `Swiss Franc`: 1.0929, `UK Pound`: 1.29166, `US Dollar`: 1} AS fx
-MATCH path = (a:Account) ((x)-[r:SENT]->(y) WHERE x <> y){2,5} (a)
-WHERE all(i IN range(0, size(r)-2) WHERE r[i].timestamp <= r[i+1].timestamp
-        AND r[i+1].amountPaid * fx[r[i+1].paymentCurrency] > r[i].amountPaid * fx[r[i].paymentCurrency] * 0.5
-        AND r[i+1].amountPaid * fx[r[i+1].paymentCurrency] < r[i].amountPaid * fx[r[i].paymentCurrency] * 1.2)
-  AND (r[0].timestamp < r[-1].timestamp
-       OR all(n IN nodes(path) WHERE a.accountId <= n.accountId))
-RETURN count(path) AS cycles,
-       sum(CASE WHEN all(rel IN relationships(path) WHERE rel.isLaundering = 1)
-                THEN 1 ELSE 0 END) AS launderingCycles
+// 4f (3/3). Count temporal rings with amount conservation: as 4f2, and each
+// chosen hop passes on 50-120% of the previous hop's USD value.
+// Ring = distinct accounts a -> ... -> a over FLOWS_TO, counted once (start =
+// lowest accountId; the inner predicate prunes the search to that start).
+// {2,12} = longest ground-truth cycle (Phase 2). If it runs past ~3 min,
+// change 12 to 8 in 4f1-4f3 and 4g and note the range used.
+// States are [timestamp, usd] pairs of transactions reachable at each hop.
+// Expected: {2,12} 1,234 rings / 80 laundering; {2,8} 1,224 / 70.
+MATCH (a:Account)
+MATCH (a) ((x)-[f:FLOWS_TO]->(y) WHERE y.accountId >= a.accountId){2,12} (a)
+WHERE all(i IN range(0, size(x)-2) WHERE NOT x[i] IN x[i+1..])
+WITH x, [k IN range(0, size(f)-1) | f[k..] + f[..k]] AS rotations
+WITH any(rot IN rotations WHERE size(reduce(
+         st = [j IN range(0, size(rot[0].ts)-1) | [rot[0].ts[j], rot[0].usd[j]]],
+         e IN rot[1..] |
+         [j IN range(0, size(e.ts)-1) WHERE any(s IN st WHERE e.ts[j] >= s[0]
+            AND e.usd[j] > 0.5 * s[1] AND e.usd[j] < 1.2 * s[1])
+          | [e.ts[j], e.usd[j]]])) > 0) AS ok,
+     any(rot IN rotations WHERE size(reduce(
+         st = [j IN range(0, size(rot[0].ts)-1) WHERE rot[0].laund[j] = 1
+               | [rot[0].ts[j], rot[0].usd[j]]],
+         e IN rot[1..] |
+         [j IN range(0, size(e.ts)-1) WHERE e.laund[j] = 1 AND any(s IN st WHERE e.ts[j] >= s[0]
+            AND e.usd[j] > 0.5 * s[1] AND e.usd[j] < 1.2 * s[1])
+          | [e.ts[j], e.usd[j]]])) > 0) AS okLaundering
+WHERE ok
+RETURN count(*) AS rings,
+       sum(CASE WHEN okLaundering THEN 1 ELSE 0 END) AS launderingRings
