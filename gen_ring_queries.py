@@ -1,4 +1,4 @@
-"""Generate the ring-counting Cypher queries (queries/4b1-4b3, 4c).
+"""Generate the ring-counting Cypher queries (graph_queries/4b1-4b3, 4c).
 
 Why generated: a quantified pattern like (a) (()-[:FLOWS_TO]->()){2,12} (a)
 only keeps relationships unique, so Neo4j explores walks that revisit
@@ -144,6 +144,6 @@ RETURN count(n) AS accountsInCycles
 }
 
 for name, text in QUERIES.items():
-    with open(f"queries/{name}", "w", newline="\n") as fh:
+    with open(f"graph_queries/{name}", "w", newline="\n") as fh:
         fh.write(text)
-    print("wrote queries/" + name)
+    print("wrote graph_queries/" + name)

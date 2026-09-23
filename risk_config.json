@@ -1,0 +1,12 @@
+{
+  "weights": {
+    "cycle": 0.35,
+    "cross_community": 0.30,
+    "pagerank": 0.20,
+    "velocity": 0.15
+  },
+  "cross_community_smoothing": 5,
+  "top_k": [100, 500, 1000, 5000],
+  "sqlite_path": "fraud.db",
+  "notes": "Weights ordered by the single-signal lift measured in Phases 4-5. Weights must sum to 1."
+}

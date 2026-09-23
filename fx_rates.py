@@ -3,7 +3,7 @@
 For every transaction paid in US Dollars but received in another currency,
 amountReceived / amountPaid is that day's rate; the median per currency is
 used. The printed map is pasted into the amount-conservation queries
-(queries/4a1_build_flows_to.cypher) so amounts in different
+(graph_queries/4a1_build_flows_to.cypher) so amounts in different
 currencies can be compared hop to hop.
 """
 import csv

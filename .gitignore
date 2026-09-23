@@ -3,3 +3,4 @@
 /transactions.csv
 /fraud.db
 __pycache__/
+.env
