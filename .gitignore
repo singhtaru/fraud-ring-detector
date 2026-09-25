@@ -4,3 +4,6 @@
 /fraud.db
 __pycache__/
 .env
+/patterns.csv
+/pattern_members.csv
+/benchmark.db

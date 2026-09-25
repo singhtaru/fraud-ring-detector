@@ -143,6 +143,30 @@ RETURN count(n) AS accountsInCycles
 """,
 }
 
+def store_detections(method, check, expected_count):
+    """Phase 7: store each ring as a :Detection node linked to its accounts.
+
+    The key uses the sorted account IDs, so rings visiting the same set of
+    accounts in different orders become one detection (a detection is an
+    account set, which is what Jaccard matching compares)."""
+    filt = f"{ROTATIONS}\nWHERE {check}\n" if check else ""
+    return f"""// 7b. Store {method} rings as :Detection nodes (Phase 7 evaluation).
+// Requires 7a2 (Detection.key constraint). Safe to re-run (MERGE).
+// Expected ({{2,12}}): {expected_count} detections (distinct account sets).
+{HEADER}
+{RINGS}
+{filt}WITH ring, apoc.coll.sort([n IN ring | n.accountId]) AS ids
+MERGE (d:Detection {{key: '{method}:' + reduce(k = '', i IN ids | k + i + '|')}})
+  ON CREATE SET d.method = '{method}', d.target = 'CYCLE', d.size = size(ring)
+FOREACH (n IN ring | MERGE (n)-[:MEMBER_OF]->(d))
+RETURN count(DISTINCT d) AS detections
+"""
+
+
+QUERIES["7b1_store_cycles_basic.cypher"] = store_detections("cycles_basic", None, "8,477")
+QUERIES["7b2_store_cycles_temporal.cypher"] = store_detections("cycles_temporal", temporal_check(False), "4,187")
+QUERIES["7b3_store_cycles_time_amount.cypher"] = store_detections("cycles_time_amount", amount_check(False), "1,226")
+
 for name, text in QUERIES.items():
     with open(f"graph_queries/{name}", "w", newline="\n") as fh:
         fh.write(text)
