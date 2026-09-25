@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+<rect width="640" height="420" fill="white"/>
+<text x="70" y="22" font-size="15" font-weight="bold">Cycle detection time vs hop depth (6,941 start accounts)</text>
+<line x1="70" x2="490" y1="360.0" y2="360.0" stroke="#ddd"/>
+<text x="62" y="364.0" text-anchor="end">0.1 s</text>
+<line x1="70" x2="490" y1="280.0" y2="280.0" stroke="#ddd"/>
+<text x="62" y="284.0" text-anchor="end">1 s</text>
+<line x1="70" x2="490" y1="200.0" y2="200.0" stroke="#ddd"/>
+<text x="62" y="204.0" text-anchor="end">10 s</text>
+<line x1="70" x2="490" y1="120.0" y2="120.0" stroke="#ddd"/>
+<text x="62" y="124.0" text-anchor="end">100 s</text>
+<line x1="70" x2="490" y1="40.0" y2="40.0" stroke="#ddd"/>
+<text x="62" y="44.0" text-anchor="end">1000 s</text>
+<text x="70.0" y="380" text-anchor="middle">2</text>
+<text x="140.0" y="380" text-anchor="middle">3</text>
+<text x="210.0" y="380" text-anchor="middle">4</text>
+<text x="280.0" y="380" text-anchor="middle">5</text>
+<text x="350.0" y="380" text-anchor="middle">6</text>
+<text x="420.0" y="380" text-anchor="middle">7</text>
+<text x="490.0" y="380" text-anchor="middle">8</text>
+<text x="280.0" y="405" text-anchor="middle">Hop depth</text>
+<line x1="70" x2="490" y1="81.8" y2="81.8" stroke="#999" stroke-dasharray="4 4"/>
+<text x="496" y="85.8" fill="#666">timeout (300 s)</text>
+<polyline fill="none" stroke="#1f6feb" stroke-width="2.5" points="70.0,338.9 140.0,319.8 210.0,320.9 280.0,308.7 350.0,300.1 420.0,281.5 490.0,231.3"/>
+<circle cx="70.0" cy="338.9" r="4" fill="#1f6feb"/>
+<circle cx="140.0" cy="319.8" r="4" fill="#1f6feb"/>
+<circle cx="210.0" cy="320.9" r="4" fill="#1f6feb"/>
+<circle cx="280.0" cy="308.7" r="4" fill="#1f6feb"/>
+<circle cx="350.0" cy="300.1" r="4" fill="#1f6feb"/>
+<circle cx="420.0" cy="281.5" r="4" fill="#1f6feb"/>
+<circle cx="490.0" cy="231.3" r="4" fill="#1f6feb"/>
+<line x1="496" x2="516" y1="60" y2="60" stroke="#1f6feb" stroke-width="2.5"/>
+<text x="520" y="64">Neo4j (Cypher)</text>
+<polyline fill="none" stroke="#d9480f" stroke-width="2.5" points="70.0,319.1 140.0,291.3 210.0,271.5 280.0,252.7 350.0,234.2 420.0,213.6 490.0,198.5"/>
+<circle cx="70.0" cy="319.1" r="4" fill="#d9480f"/>
+<circle cx="140.0" cy="291.3" r="4" fill="#d9480f"/>
+<circle cx="210.0" cy="271.5" r="4" fill="#d9480f"/>
+<circle cx="280.0" cy="252.7" r="4" fill="#d9480f"/>
+<circle cx="350.0" cy="234.2" r="4" fill="#d9480f"/>
+<circle cx="420.0" cy="213.6" r="4" fill="#d9480f"/>
+<circle cx="490.0" cy="198.5" r="4" fill="#d9480f"/>
+<line x1="496" x2="516" y1="80" y2="80" stroke="#d9480f" stroke-width="2.5"/>
+<text x="520" y="84">SQLite (recursive CTE)</text>
+</svg>

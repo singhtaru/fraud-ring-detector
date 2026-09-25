@@ -1,0 +1,15 @@
+engine,depth,median_seconds,cycles,status
+sqlite,2,0.3249,7386,ok
+sqlite,3,0.7228,1687,ok
+sqlite,4,1.2784,876,ok
+sqlite,5,2.1943,1364,ok
+sqlite,6,3.7364,2401,ok
+sqlite,7,6.7688,4286,ok
+sqlite,8,10.4475,6645,ok
+neo4j,2,0.1838,7386,ok
+neo4j,3,0.3180,1687,ok
+neo4j,4,0.3084,876,ok
+neo4j,5,0.4379,1364,ok
+neo4j,6,0.5602,2401,ok
+neo4j,7,0.9579,4286,ok
+neo4j,8,4.0588,6645,ok
