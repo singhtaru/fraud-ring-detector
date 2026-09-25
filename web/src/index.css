@@ -1,0 +1,57 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; background: #f4f5f7; color: #1d1d1f; }
+
+.app header {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 0.75rem 1.25rem; background: #1f2937; color: #fff;
+}
+.app header h1 { font-size: 1.1rem; margin: 0; }
+.app header nav button, .app header form button {
+  background: transparent; color: #fff; border: 1px solid #4b5563;
+  padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer;
+}
+.app header nav button.active { background: #4b5563; }
+.app header form { margin-left: auto; display: flex; gap: 0.5rem; }
+.app header input { padding: 0.35rem 0.6rem; border-radius: 6px; border: none; width: 260px; }
+
+.layout {
+  display: grid; grid-template-columns: 340px 1fr 360px; gap: 1rem;
+  padding: 1rem; height: calc(100vh - 56px);
+}
+.panel { background: #fff; border-radius: 10px; padding: 1rem; overflow: auto; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.panel h2 { font-size: 1rem; margin: 0 0 0.75rem; }
+.panel h3 { font-size: 0.9rem; margin: 1rem 0 0.5rem; }
+.center { display: flex; flex-direction: column; overflow: hidden; }
+
+.graph { flex: 1; min-height: 300px; position: relative; }
+.hint { color: #888; text-align: center; margin-top: 3rem; }
+.hint.small { font-size: 0.8rem; margin-top: 0.5rem; }
+.error { color: #b91c1c; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 0.5rem; }
+th, td { text-align: left; padding: 0.35rem 0.4rem; border-bottom: 1px solid #eee; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: #f3f4f6; }
+tr.selected { background: #dbeafe; }
+
+select { width: 100%; padding: 0.35rem; }
+.filters { display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; }
+.filters select { width: auto; padding: 0.2rem; }
+.pager { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; }
+
+.ring-info { font-size: 0.85rem; margin-bottom: 0.5rem; }
+.ring-info .match { color: #15803d; }
+
+.score { font-size: 2rem; font-weight: 700; margin: 0; }
+.score small { font-size: 1rem; color: #888; }
+.formula { font-size: 0.85rem; color: #555; margin: 0.25rem 0 0.75rem; }
+
+dl { display: grid; grid-template-columns: auto 1fr; gap: 0.3rem 0.75rem; font-size: 0.85rem; }
+dt { color: #666; }
+dd { margin: 0; }
+
+.ring-links { list-style: none; padding: 0; margin: 0; font-size: 0.85rem; }
+.ring-links button { background: none; border: none; color: #2563eb; cursor: pointer; padding: 0.2rem 0; text-align: left; }
+.ground-truth { margin-top: 1rem; padding: 0.5rem; background: #fef3c7; border-radius: 6px; font-size: 0.8rem; }
+
+.dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1rem; }
