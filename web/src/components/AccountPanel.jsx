@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { api } from "../api";
 
 const PARTS = [
@@ -8,6 +8,28 @@ const PARTS = [
   ["pageRank", "PageRank", "#1f77b4"],
   ["velocity", "Velocity", "#2ca02c"],
 ];
+
+// Solid card listing the parts in bar order (Recharts' default tooltip sorts
+// them by name and lets the legend show through).
+function RiskTooltip({ active, risk }) {
+  if (!active) return null;
+  return (
+    <div className="risk-tip">
+      {PARTS.map(([k, label, color]) => (
+        <div key={k} className="risk-tip-row">
+          <span className="swatch" style={{ background: color }} />
+          <span>{label}</span>
+          <b>{(risk[k] ?? 0).toFixed(1)}</b>
+        </div>
+      ))}
+      <div className="risk-tip-row risk-tip-total">
+        <span />
+        <span>Total</span>
+        <b>{risk.score?.toFixed(1) ?? "–"}</b>
+      </div>
+    </div>
+  );
+}
 
 export default function AccountPanel({ accountId, onSelectRing }) {
   const [acc, setAcc] = useState(null);
@@ -41,17 +63,22 @@ export default function AccountPanel({ accountId, onSelectRing }) {
         = {PARTS.map(([k, label]) => `${(risk[k] ?? 0).toFixed(1)} ${label.toLowerCase()}`).join(" + ")}
       </p>
 
-      <ResponsiveContainer width="100%" height={90}>
+      <ResponsiveContainer width="100%" height={60}>
         <BarChart data={bar} layout="vertical" margin={{ left: 0, right: 10 }}>
           <XAxis type="number" domain={[0, 100]} />
           <YAxis type="category" dataKey="name" hide />
-          <Tooltip formatter={(v) => v.toFixed(1)} />
-          <Legend />
+          <Tooltip content={<RiskTooltip risk={risk} />} cursor={false} isAnimationActive={false}
+                   allowEscapeViewBox={{ x: false, y: true }} wrapperStyle={{ zIndex: 10, outline: "none" }} />
           {PARTS.map(([k, label, color]) => (
             <Bar key={k} isAnimationActive={false} dataKey={k} name={label} stackId="risk" fill={color} />
           ))}
         </BarChart>
       </ResponsiveContainer>
+      <div className="risk-legend">
+        {PARTS.map(([k, label, color]) => (
+          <span key={k}><span className="swatch" style={{ background: color }} />{label}</span>
+        ))}
+      </div>
 
       <dl>
         <dt>PageRank</dt><dd>{acc.graph?.pageRank?.toFixed(4)}</dd>

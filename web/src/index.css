@@ -46,6 +46,17 @@ select { width: 100%; padding: 0.35rem; }
 .score small { font-size: 1rem; color: #888; }
 .formula { font-size: 0.85rem; color: #555; margin: 0.25rem 0 0.75rem; }
 
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 0.35rem; }
+.risk-legend { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-size: 0.8rem; color: #444; margin: 0.25rem 0 0.9rem; }
+.risk-legend > span { display: inline-flex; align-items: center; }
+.risk-tip {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.5rem 0.65rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12); font-size: 0.8rem; min-width: 170px;
+}
+.risk-tip-row { display: grid; grid-template-columns: 14px 1fr auto; align-items: center; gap: 0.25rem; padding: 0.1rem 0; }
+.risk-tip-row b { font-variant-numeric: tabular-nums; text-align: right; }
+.risk-tip-total { border-top: 1px solid #eee; margin-top: 0.25rem; padding-top: 0.3rem; }
+
 dl { display: grid; grid-template-columns: auto 1fr; gap: 0.3rem 0.75rem; font-size: 0.85rem; }
 dt { color: #666; }
 dd { margin: 0; }
